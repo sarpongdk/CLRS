@@ -794,8 +794,8 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#453" class="md-nav__link">
-    4.5.3
+  <a href="#45-3" class="md-nav__link">
+    4.5-3
   </a>
   
 </li>
@@ -5764,8 +5764,8 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#453" class="md-nav__link">
-    4.5.3
+  <a href="#45-3" class="md-nav__link">
+    4.5-3
   </a>
   
 </li>
@@ -5823,7 +5823,7 @@
 </blockquote>
 <p>Strassen's algorithm has running time of $\Theta(n^{\lg 7})$.</p>
 <p>The largest integer $a$ such that $\log_4 a &lt; \lg 7$ is $a = 48$.</p>
-<h2 id="453">4.5.3</h2>
+<h2 id="45-3">4.5-3</h2>
 <blockquote>
 <p>Use the master method to show that the solution to the binary-search recurrence $T(n) = T(n / 2) + \Theta(1)$ is $T(n) = \Theta(\lg n)$. (See exercise 2.3-5 for a description of binary search.)</p>
 </blockquote>
@@ -5838,16 +5838,16 @@ $$</p>
 <blockquote>
 <p>Can the master method be applied to the recurrence $T(n) = 4T(n / 2) + n^2\lg n$? Why or why not? Give an asymptotic upper bound for this recurrence.</p>
 </blockquote>
-<p>With $a = 4$, $b = 2$, we have $f(n) = n^2\lg n \ne O(n^{2 - \epsilon}) \ne \Omega(n^{2 - \epsilon})$, so we cannot apply the master method.</p>
-<p>We guess $T(n) \le cn^2\lg^2 n$,</p>
+<p>With $a = 4$, $b = 2$, we have $f(n) = n^2\lg n \ne O(n^{2 - \epsilon}) \ne \Omega(n^{2 + \epsilon})$, so we cannot apply the master method.</p>
+<p>We guess $T(n) \le cn^2\lg^2 n$, subsituting $T(n/2) \le c(n/2)^2\lg^2 (n/2)$ into the recurrence yields</p>
 <p>$$
 \begin{aligned}
-T(n) &amp; \le 4T(n / 2) + n^2\lg n \\
-     &amp; =   4c(n / 2)^2\lg^2(n / 2) + n^2\lg n \\
+T(n) &amp; =   4T(n / 2) + n^2\lg n \\
+     &amp; \le 4c(n / 2)^2\lg^2(n / 2) + n^2\lg n \\
      &amp; =   cn^2\lg(n / 2)\lg n - cn^2\lg(n / 2)\lg 2 + n^2\lg n \\
-     &amp; =   cn^2\lg^2 n - cn^2\lg n\lg 2 - cn^2\lg(n / 2) + n^2\lg n \\
-     &amp; =   cn^2\lg^2 n + (1 - c)n^2\lg n - cn^2\lg(n / 2) &amp; (c &gt; 1) \\
-     &amp; \le cn^2\lg^2 n - cn^2\lg(n / 2) \\
+     &amp; =   cn^2\lg^2 n - cn^2\lg n\lg 2 - cn^2\lg(n / 2)\lg 2 + n^2\lg n \\
+     &amp; =   cn^2\lg^2 n + (1 - c\lg 2)n^2\lg n - cn^2\lg(n / 2)\lg 2 &amp; (c \ge 1/\lg 2) \\
+     &amp; \le cn^2\lg^2 n - cn^2\lg(n / 2)\lg 2 \\
      &amp; \le cn^2\lg^2 n.
 \end{aligned}
 $$</p>
