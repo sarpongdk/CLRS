@@ -5708,7 +5708,8 @@
 <p><strong>b.</strong> Quicksort-Partition.</p>
 <p><strong>c.</strong> Insertion-Sort.</p>
 <p><strong>d.</strong> (a) Yes. (b) No. (c) No.</p>
-<p><strong>e.</strong> Using $O(k)$ outside the input-arr.</p>
+<p><strong>e.</strong></p>
+<p>Thanks <a href="https://github.com/Gutdub">@Gutdub</a> for providing the solution in this <a href="https://github.com/walkccc/CLRS/issues/150">issue</a>.</p>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span> 1
  2
  3
@@ -5719,21 +5720,39 @@
  8
  9
 10
-11</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="n">COUNTING</span><span class="o">-</span><span class="n">SORT</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span>
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="n">MODIFIED</span><span class="o">-</span><span class="n">COUNTING</span><span class="o">-</span><span class="n">SORT</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span>
     <span class="n">let</span> <span class="n">C</span><span class="p">[</span><span class="mf">0.</span><span class="p">.</span><span class="n">k</span><span class="p">]</span> <span class="n">be</span> <span class="n">a</span> <span class="k">new</span> <span class="n">array</span>
-    <span class="k">for</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span> <span class="n">to</span> <span class="n">k</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span> <span class="n">to</span> <span class="n">k</span>
         <span class="n">C</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
-    <span class="k">for</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span> <span class="n">to</span> <span class="n">A</span><span class="p">.</span><span class="n">length</span>
-        <span class="n">C</span><span class="p">[</span><span class="n">A</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span> <span class="o">=</span> <span class="n">C</span><span class="p">[</span><span class="n">A</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span> <span class="o">+</span> <span class="mi">1</span>    <span class="c1">// C[i] now contains the number of elements equal to i</span>
-    <span class="n">p</span> <span class="o">=</span> <span class="mi">0</span>
-    <span class="k">for</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span> <span class="n">to</span> <span class="n">k</span>
-        <span class="k">for</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">1</span> <span class="n">to</span> <span class="n">C</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
-            <span class="n">p</span> <span class="o">=</span> <span class="n">p</span> <span class="o">+</span> <span class="mi">1</span>
-            <span class="n">A</span><span class="p">[</span><span class="n">p</span><span class="p">]</span> <span class="o">=</span> <span class="n">i</span>
+    <span class="k">for</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">1</span> <span class="n">to</span> <span class="n">A</span><span class="p">.</span><span class="n">length</span>
+        <span class="n">C</span><span class="p">[</span><span class="n">A</span><span class="p">[</span><span class="n">j</span><span class="p">]]</span> <span class="o">=</span> <span class="n">C</span><span class="p">[</span><span class="n">A</span><span class="p">[</span><span class="n">j</span><span class="p">]]</span> <span class="o">+</span> <span class="mi">1</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">2</span> <span class="n">to</span> <span class="n">k</span>
+        <span class="n">C</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">C</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">C</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span>
+    <span class="n">insert</span> <span class="n">sentinel</span> <span class="n">element</span> <span class="n">NIL</span> <span class="n">at</span> <span class="n">the</span> <span class="n">start</span> <span class="n">of</span> <span class="n">A</span>
+    <span class="n">B</span> <span class="o">=</span> <span class="n">C</span><span class="p">[</span><span class="mf">0.</span><span class="p">.</span><span class="n">k</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span>
+    <span class="n">insert</span> <span class="n">number</span> <span class="mi">1</span> <span class="n">at</span> <span class="n">the</span> <span class="n">start</span> <span class="n">of</span> <span class="n">B</span>
+    <span class="c1">// B now contains the &quot;endpoints&quot; for C</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">2</span> <span class="n">to</span> <span class="n">A</span><span class="p">.</span><span class="n">length</span>
+        <span class="k">while</span> <span class="n">C</span><span class="p">[</span><span class="n">A</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span> <span class="o">!=</span> <span class="n">B</span><span class="p">[</span><span class="n">A</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span>
+            <span class="n">key</span> <span class="o">=</span> <span class="n">A</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+            <span class="n">exchange</span> <span class="n">A</span><span class="p">[</span><span class="n">C</span><span class="p">[</span><span class="n">A</span><span class="p">[</span><span class="n">i</span><span class="p">]]]</span> <span class="n">with</span> <span class="n">A</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+            <span class="k">while</span> <span class="n">A</span><span class="p">[</span><span class="n">C</span><span class="p">[</span><span class="n">key</span><span class="p">]]</span> <span class="o">==</span> <span class="n">key</span> <span class="c1">// make sure that elements with the same keys will not be swapped</span>
+                <span class="n">C</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">C</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span>
+    <span class="n">remove</span> <span class="n">the</span> <span class="n">sentinel</span> <span class="n">element</span>
+    <span class="k">return</span> <span class="n">A</span>
 </pre></div>
 </td></tr></table>
 
-<p>Not stable, in place, in $O(n + k)$.</p>
+<p>In place (storage space is $\Theta(k)$) but not stable.</p>
                 
                   
                 
