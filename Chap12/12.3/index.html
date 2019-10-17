@@ -5907,24 +5907,33 @@ B   D        D    C
 <blockquote>
 <p>Suppose that instead of each node $x$ keeping the attribute $x.p$, pointing to $x$'s parent, it keeps $x.succ$, pointing to $x$'s successor. Give pseudocode for $\text{SEARCH}$, $\text{INSERT}$, and $\text{DELETE}$ on a binary search tree $T$ using this representation. These procedures should operate in time $O(h)$, where $h$ is the height of the tree $T$. ($\textit{Hint:}$ You may wish to implement a subroutine that returns the parent of a node.)</p>
 </blockquote>
-<p>In $\text{SEARCH}$ and $\text{INSERT}$, we do not need to know the parent of $x$.</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1
-2
-3
-4
-5
-6
-7
-8
-9</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="n">PARENT</span><span class="p">(</span><span class="n">z</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">z</span> <span class="o">==</span> <span class="n">NIL</span>
-        <span class="n">m</span> <span class="o">=</span> <span class="n">T</span><span class="p">.</span><span class="n">root</span>
+<p>We don't need to change $\text{SEARCH}$.</p>
+<p>We have to implement $\text{PARENT}$, which facilitates us a lot.</p>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="n">PARENT</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">x</span> <span class="o">==</span> <span class="n">T</span><span class="p">.</span><span class="n">root</span>
+        <span class="k">return</span> <span class="n">NIL</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">TREE</span><span class="o">-</span><span class="n">MAXIMUM</span><span class="p">(</span><span class="n">x</span><span class="p">).</span><span class="n">succ</span>
+    <span class="k">if</span> <span class="n">y</span> <span class="o">==</span> <span class="n">NIL</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="n">T</span><span class="p">.</span><span class="n">root</span>
     <span class="k">else</span>
-        <span class="n">m</span> <span class="o">=</span> <span class="n">z</span><span class="p">.</span><span class="n">left</span>
-    <span class="k">while</span> <span class="n">m</span> <span class="o">!=</span> <span class="n">x</span>
-        <span class="n">p</span> <span class="o">=</span> <span class="n">m</span>
-        <span class="n">m</span> <span class="o">=</span> <span class="n">m</span><span class="p">.</span><span class="n">right</span>
-    <span class="k">return</span> <span class="n">p</span>
+        <span class="k">if</span> <span class="n">y</span><span class="p">.</span><span class="n">left</span> <span class="o">==</span> <span class="n">x</span>
+            <span class="k">return</span> <span class="n">y</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="n">y</span><span class="p">.</span><span class="n">left</span>
+    <span class="k">while</span> <span class="n">y</span><span class="p">.</span><span class="n">right</span> <span class="o">!=</span> <span class="n">x</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="n">y</span><span class="p">.</span><span class="n">right</span>
+    <span class="k">return</span> <span class="n">y</span>
 </pre></div>
 </td></tr></table>
 
@@ -5941,24 +5950,110 @@ B   D        D    C
 11
 12
 13
-14</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="n">GET</span><span class="o">-</span><span class="n">PARENT</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">x</span><span class="p">.</span><span class="n">right</span> <span class="o">==</span> <span class="n">NIL</span>
-        <span class="k">if</span> <span class="n">x</span> <span class="o">==</span> <span class="n">x</span><span class="p">.</span><span class="n">succ</span><span class="p">.</span><span class="n">left</span>
-            <span class="n">x</span><span class="p">.</span><span class="n">p</span> <span class="o">=</span> <span class="n">x</span><span class="p">.</span><span class="n">succ</span>
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="n">INSERT</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">z</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">NIL</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">T</span><span class="p">.</span><span class="n">root</span>
+    <span class="n">pred</span> <span class="o">=</span> <span class="n">NIL</span>
+    <span class="k">while</span> <span class="n">x</span> <span class="o">!=</span> <span class="n">NIL</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="n">x</span>
+        <span class="k">if</span> <span class="n">z</span><span class="p">.</span><span class="n">key</span> <span class="o">&lt;</span> <span class="n">x</span><span class="p">.</span><span class="n">key</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="p">.</span><span class="n">left</span>
         <span class="k">else</span>
-            <span class="n">z</span> <span class="o">=</span> <span class="n">x</span><span class="p">.</span><span class="n">succ</span>
-            <span class="n">x</span><span class="p">.</span><span class="n">p</span> <span class="o">=</span> <span class="n">PARENT</span><span class="p">(</span><span class="n">z</span><span class="p">)</span>
+            <span class="n">pred</span> <span class="o">=</span> <span class="n">x</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="p">.</span><span class="n">right</span>
+    <span class="k">if</span> <span class="n">y</span> <span class="o">==</span> <span class="n">NIL</span>
+        <span class="n">T</span><span class="p">.</span><span class="n">root</span> <span class="o">=</span> <span class="n">z</span>
+        <span class="n">z</span><span class="p">.</span><span class="n">succ</span> <span class="o">=</span> <span class="n">NIL</span>
+    <span class="k">else</span> <span class="k">if</span> <span class="n">z</span><span class="p">.</span><span class="n">key</span> <span class="o">&lt;</span> <span class="n">y</span><span class="p">.</span><span class="n">key</span>
+        <span class="n">y</span><span class="p">.</span><span class="n">left</span> <span class="o">=</span> <span class="n">z</span>
+        <span class="n">z</span><span class="p">.</span><span class="n">succ</span> <span class="o">=</span> <span class="n">y</span>
+        <span class="k">if</span> <span class="n">pred</span> <span class="o">!=</span> <span class="n">NIL</span>
+            <span class="n">pred</span><span class="p">.</span><span class="n">succ</span> <span class="o">=</span> <span class="n">z</span>
     <span class="k">else</span>
-        <span class="n">y</span> <span class="o">=</span> <span class="n">TREE</span><span class="o">-</span><span class="n">MAXIMUM</span><span class="p">(</span><span class="n">x</span><span class="p">.</span><span class="n">right</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">x</span> <span class="o">==</span> <span class="n">y</span><span class="p">.</span><span class="n">succ</span><span class="p">.</span><span class="n">left</span>
-            <span class="n">x</span><span class="p">.</span><span class="n">p</span> <span class="o">=</span> <span class="n">y</span><span class="p">.</span><span class="n">succ</span>
-        <span class="k">else</span>
-            <span class="n">z</span> <span class="o">=</span> <span class="n">y</span><span class="p">.</span><span class="n">succ</span>
-            <span class="n">x</span><span class="p">.</span><span class="n">p</span> <span class="o">=</span> <span class="n">PARENT</span><span class="p">(</span><span class="n">z</span><span class="p">)</span>
+        <span class="n">y</span><span class="p">.</span><span class="n">right</span> <span class="o">=</span> <span class="n">z</span>
+        <span class="n">z</span><span class="p">.</span><span class="n">succ</span> <span class="o">=</span> <span class="n">y</span><span class="p">.</span><span class="n">succ</span>
+        <span class="n">y</span><span class="p">.</span><span class="n">succ</span> <span class="o">=</span> <span class="n">z</span>
 </pre></div>
 </td></tr></table>
 
-<p>Therefore we can find $x$'s parent in $O(h)$, $\text{DELETE}$ is $O(h + h) = O(h)$.</p>
+<p>We modify $\text{TRANSPLANT}$ a bit since we no longer have to keep the pointer of $p$.</p>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1
+2
+3
+4
+5
+6
+7
+8</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="n">TRANSPLANT</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="n">PARENT</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">u</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">p</span> <span class="o">==</span> <span class="n">NIL</span>
+        <span class="n">T</span><span class="p">.</span><span class="n">root</span> <span class="o">=</span> <span class="n">v</span>
+    <span class="k">else</span> <span class="k">if</span> <span class="n">u</span> <span class="o">==</span> <span class="n">p</span><span class="p">.</span><span class="n">left</span>
+        <span class="n">p</span><span class="p">.</span><span class="n">left</span> <span class="o">=</span> <span class="n">v</span>
+    <span class="k">else</span>
+        <span class="n">p</span><span class="p">.</span><span class="n">right</span> <span class="o">=</span> <span class="n">v</span>
+</pre></div>
+</td></tr></table>
+
+<p>Also, we have to implement $\text{TREE-PREDECESSOR}$, which helps us easily find the predecessor in line 2 of $\text{DELETE}$.</p>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1
+2
+3
+4
+5
+6
+7
+8</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="n">TREE</span><span class="o">-</span><span class="n">PREDECESSOR</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">x</span><span class="p">.</span><span class="n">left</span> <span class="o">!=</span> <span class="n">NIL</span>
+        <span class="k">return</span> <span class="n">TREE</span><span class="o">-</span><span class="n">MAXIMUM</span><span class="p">(</span><span class="n">x</span><span class="p">.</span><span class="n">left</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">PARENT</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+    <span class="k">while</span> <span class="n">y</span> <span class="o">!=</span> <span class="n">NIL</span> <span class="n">and</span> <span class="n">x</span> <span class="o">==</span> <span class="n">y</span><span class="p">.</span><span class="n">left</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">y</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="n">PARENT</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">y</span>
+</pre></div>
+</td></tr></table>
+
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="n">DELETE</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">z</span><span class="p">)</span>
+    <span class="n">pred</span> <span class="o">=</span> <span class="n">TREE</span><span class="o">-</span><span class="n">PREDECESSOR</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">z</span><span class="p">)</span>
+    <span class="n">pred</span><span class="p">.</span><span class="n">succ</span> <span class="o">=</span> <span class="n">z</span><span class="p">.</span><span class="n">succ</span>
+    <span class="k">if</span> <span class="n">z</span><span class="p">.</span><span class="n">left</span> <span class="o">==</span> <span class="n">NIL</span>
+        <span class="n">TRANSPLANT</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">z</span><span class="p">.</span><span class="n">right</span><span class="p">)</span>
+    <span class="k">else</span> <span class="k">if</span> <span class="n">z</span><span class="p">.</span><span class="n">right</span> <span class="o">==</span> <span class="n">NIL</span>
+        <span class="n">TRANSPLANT</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">z</span><span class="p">.</span><span class="n">left</span><span class="p">)</span>
+    <span class="k">else</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="n">TREE</span><span class="o">-</span><span class="n">MIMIMUM</span><span class="p">(</span><span class="n">z</span><span class="p">.</span><span class="n">right</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">PARENT</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span> <span class="o">!=</span> <span class="n">z</span>
+            <span class="n">TRANSPLANT</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">y</span><span class="p">.</span><span class="n">right</span><span class="p">)</span>
+            <span class="n">y</span><span class="p">.</span><span class="n">right</span> <span class="o">=</span> <span class="n">z</span><span class="p">.</span><span class="n">right</span>
+        <span class="n">TRANSPLANT</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+        <span class="n">y</span><span class="p">.</span><span class="n">left</span> <span class="o">=</span> <span class="n">z</span><span class="p">.</span><span class="n">left</span>
+</pre></div>
+</td></tr></table>
+
+<p>Therefore, all these five algorithms are still $O(h)$ despite the increase in the hidden constant factor.</p>
 <h2 id="123-6">12.3-6</h2>
 <blockquote>
 <p>When node $z$ in $\text{TREE-DELETE}$ has two children, we could choose node $y$ as its predecessor rather than its successor. What other changes to $\text{TREE-DELETE}$ would be necessary if we did so? Some have argued that a fair strategy, giving equal priority to predecessor and successor, yields better empirical performance. How might $\text{TREE-DELETE}$ be changed to implement such a fair strategy?</p>

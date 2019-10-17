@@ -5824,7 +5824,7 @@
 <p>Suppose we use a hash function $h$ to hash $n$ distinct keys into an array $T$ of length $m$. Assuming simple uniform hashing, what is the expected number of collisions? More precisely, what is the expected cardinality of $\{\{k, l\}: k \ne l \text{ and } h(k) = h(l)\}$?</p>
 </blockquote>
 <p>Under the assumption of simple uniform hashing, we will use linearity of expectation to compute this.</p>
-<p>Suppose that all the keys are totally ordered $\{k_1, \dots, k_n\}$. Let $X_i$ be the number of $\ell &gt; k_i$ such that $h(\ell) = h(k_i)$. Note, that this is the same thing as $\sum_{j &gt; i} \Pr(h(k_j)) = h(k_i)) = \sum_{j &gt; i} 1 / m = (n - i) / m$. Then, by linearity of expectation, the number of collisions is the sum of the number of collisions for each possible smallest element in the collision. The expected number of collisions is</p>
+<p>Suppose that all the keys are totally ordered $\{k_1, \dots, k_n\}$. Let $X_i$ be the number of $\ell$'s such that $\ell &gt; k_i$ and $h(\ell) = h(k_i)$. So $X_i$ is the (expected) number of times that key $k_i$ is collided by those keys hashed afterward. Note, that this is the same thing as $\sum_{j &gt; i} \Pr(h(k_j)) = h(k_i)) = \sum_{j &gt; i} 1 / m = (n - i) / m$. Then, by linearity of expectation, the number of collisions is the sum of the number of collisions for each possible smallest element in the collision. The expected number of collisions is</p>
 <p>$$\sum_{i = 1}^n \frac{n - i}{m} = \frac{n^2 - n(n + 1) / 2}{m} = \frac{n^2 - n}{2m}.$$</p>
 <h2 id="112-2">11.2-2</h2>
 <blockquote>

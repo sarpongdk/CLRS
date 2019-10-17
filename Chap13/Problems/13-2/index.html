@@ -5715,20 +5715,16 @@
 3
 4
 5
-6
-7
-8</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="n">RB</span><span class="o">-</span><span class="n">JOIN</span><span class="err">&#39;</span><span class="p">(</span><span class="n">T</span><span class="p">[</span><span class="n">y</span><span class="p">],</span> <span class="n">x</span><span class="p">,</span> <span class="n">T</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
-    <span class="n">z</span><span class="p">.</span><span class="n">left</span> <span class="o">=</span> <span class="n">T</span><span class="p">[</span><span class="n">y</span><span class="p">]</span>
-    <span class="n">z</span><span class="p">.</span><span class="n">right</span> <span class="o">=</span> <span class="n">T</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
-    <span class="n">z</span><span class="p">.</span><span class="n">parent</span> <span class="o">=</span> <span class="n">T</span><span class="p">[</span><span class="n">y</span><span class="p">].</span><span class="n">parent</span>
-    <span class="n">z</span><span class="p">.</span><span class="n">key</span> <span class="o">=</span> <span class="n">x</span>
-    <span class="k">if</span> <span class="n">T</span><span class="p">[</span><span class="n">y</span><span class="p">].</span><span class="n">parent</span><span class="p">.</span><span class="n">left</span> <span class="o">=</span> <span class="n">T</span><span class="p">[</span><span class="n">y</span><span class="p">]</span>
-        <span class="n">T</span><span class="p">[</span><span class="n">y</span><span class="p">].</span><span class="n">parent</span><span class="p">.</span><span class="n">left</span> <span class="o">=</span> <span class="n">z</span>
-    <span class="k">else</span> <span class="n">T</span><span class="p">[</span><span class="n">y</span><span class="p">].</span><span class="n">parent</span><span class="p">.</span><span class="n">right</span> <span class="o">=</span> <span class="n">z</span>
+6</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="n">RB</span><span class="o">-</span><span class="n">JOIN</span><span class="err">&#39;</span><span class="p">(</span><span class="n">T</span><span class="p">[</span><span class="n">y</span><span class="p">],</span> <span class="n">x</span><span class="p">,</span> <span class="n">T</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+    <span class="n">TRANSPLANT</span><span class="p">(</span><span class="n">T</span><span class="p">[</span><span class="n">y</span><span class="p">],</span> <span class="n">x</span><span class="p">)</span>
+    <span class="n">x</span><span class="p">.</span><span class="n">left</span> <span class="o">=</span> <span class="n">T</span><span class="p">[</span><span class="n">y</span><span class="p">]</span>
+    <span class="n">x</span><span class="p">.</span><span class="n">right</span> <span class="o">=</span> <span class="n">T</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+    <span class="n">T</span><span class="p">[</span><span class="n">y</span><span class="p">].</span><span class="n">parent</span> <span class="o">=</span> <span class="n">x</span>
+    <span class="n">T</span><span class="p">[</span><span class="mi">2</span><span class="p">].</span><span class="n">parent</span> <span class="o">=</span> <span class="n">x</span>
 </pre></div>
 </td></tr></table>
 
-<p><strong>d.</strong> Red, because if both the colors of the roots of $T_y$ and $T_2$ are black and the color of $x.parent$ is red, then the color of $x$ is black and it'll change both the colors of the roots of $T_y$ and $T_2$ and recursively adjust to ensure that $\text{BLACK-HEIGHT}$ doesn't change.</p>
+<p><strong>d.</strong> Red. Call $\text{INSERT-FIXUP(T[1], x)}$.</p>
 <p>The time complexity is $O(\lg n)$.</p>
 <p><strong>e.</strong> Same, if $T_1.bh\le T_2.bh$, then we can use the above algorithm symmetrically.</p>
 <p><strong>f.</strong> $O(1) + O(\lg n) = O(\lg n)$.</p>
