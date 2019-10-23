@@ -5868,7 +5868,7 @@
 <blockquote>
 <p>Describe an efficient algorithm that, given an interval $i$ , returns an interval overlapping $i$ that has the minimum low endpoint, or $T.nil$ if no such interval exists.</p>
 </blockquote>
-<p>Consider the usual interval search given, but, instead of breaking out of the loop asa soon as we have an overlap, we just keep track of the most recently seen overlap, and keep going in the loop until we hit $T.nil$. We then return the most recently seen overlap. We have that this is the overlapping interval with minimum left end point because the search always goes to the left it contains an overlapping interval, and the left children are the ones with smaller left endpoint.</p>
+<p>Consider the usual interval search given, but, instead of breaking out of the loop as soon as we have an overlap, we just keep track of the overlap that has the minimum low endpoint, and continue the loop. After the loop terminates, we return the overlap stored.</p>
 <h2 id="143-4">14.3-4</h2>
 <blockquote>
 <p>Given an interval tree $T$ and an interval $i$, describe how to list all intervals in $T$ that overlap $i$ in $O(\min(n, k \lg n))$ time, where $k$ is the number of intervals in the output list. ($\textit{Hint:}$ One simple method makes several queries, modifying the tree between queries. A slightly more complicated method does not modify the tree.)</p>

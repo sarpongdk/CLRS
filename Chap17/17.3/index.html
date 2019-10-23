@@ -5866,8 +5866,8 @@ $$</p>
 <blockquote>
 <p>Consider an ordinary binary min-heap data structure with $n$ elements supporting the instructions $\text{INSERT}$ and $\text{EXTRACT-MIN}$ in $O(\lg n)$ worst-case time. Give a potential function $\Phi$ such that the amortized cost of $\text{INSERT}$ is $O(\lg n)$ and the amortized cost of $\text{EXTRACT-MIN}$ is $O(1)$, and show that it works.</p>
 </blockquote>
-<p>Make the potential function be equal to $n\lg n$ where $n$ is the size of the min-heap. Then, there is still a cost of $O(\lg n)$ to $\text{INSERT}$, since only an amount of ammortization that is about $\lg n$ was spent to increase the size of the heap by $1$.</p>
-<p>However, since $\text{EXTRACT-MIN}$ decreases the size of the heap by $1$, the actual cost of the operation is offset by a change in potential of the same order, so only a constant amount of work is needed.</p>
+<p>Make the potential function be equal to $\sum_{i = 1}^n \lg i$ where $n$ is the size of the min-heap. Then, there is still a cost of $O(\lg n)$ to $\text{INSERT}$, since only an amount of amortization that is $\lg n$ was spent to increase the size of the heap by $1$.</p>
+<p>However, the amortized cost of $\text{EXTRACT-MIN}$ is $0$, as all its actual cost is compensated.</p>
 <h2 id="173-4">17.3-4</h2>
 <blockquote>
 <p>What is the total cost of executing $n$ of the stack operations $\text{PUSH}$, $\text{POP}$, and $\text{MULTIPOP}$, assuming that the stack begins with $s_0$ objects and finishes with $s_n$ objects?</p>
