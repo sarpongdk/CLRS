@@ -5873,7 +5873,7 @@
     <span class="k">else</span>
         <span class="n">PROTO</span><span class="o">-</span><span class="n">vEB</span><span class="o">-</span><span class="n">DELETE</span><span class="p">(</span><span class="n">V</span><span class="p">.</span><span class="n">cluster</span><span class="p">[</span><span class="n">x</span><span class="p">.</span><span class="n">high</span><span class="p">],</span> <span class="n">x</span><span class="p">.</span><span class="n">low</span><span class="p">)</span>
         <span class="n">inCluster</span> <span class="o">=</span> <span class="nb">false</span>
-        <span class="k">for</span> <span class="n">i</span> <span class="o">=</span> <span class="n">x</span><span class="p">.</span><span class="n">high</span> <span class="o">*</span> <span class="n">sqrt</span><span class="p">(</span><span class="n">u</span><span class="p">)</span> <span class="n">to</span> <span class="p">(</span><span class="n">x</span><span class="p">.</span><span class="n">high</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">sqrt</span><span class="p">(</span><span class="n">u</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span> <span class="n">to</span> <span class="n">sqrt</span><span class="p">(</span><span class="n">u</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
             <span class="k">if</span> <span class="n">PROTO</span><span class="o">-</span><span class="n">vEB</span><span class="o">-</span><span class="n">MEMBER</span><span class="p">(</span><span class="n">V</span><span class="p">.</span><span class="n">cluster</span><span class="p">[</span><span class="n">x</span><span class="p">.</span><span class="n">high</span><span class="p">],</span> <span class="n">i</span><span class="p">)</span>
                 <span class="n">inCluster</span> <span class="o">=</span> <span class="nb">true</span>
                 <span class="k">break</span>
@@ -5895,32 +5895,6 @@
 <p>Modify the $\text{proto-vEB}$ structure to support duplicate keys.</p>
 </blockquote>
 <p>The array $A$ found in a proto van Emde Boas structure of size $2$ should now support integers, instead of just bits. All other pats of the structure will remain the same. The integer will store the number of duplicates at that position. The modifications to insert, delete, minimum, successor, etc will be minor. Only the base cases will need to be updated.</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span> 1
- 2
- 3
- 4
- 5
- 6
- 7
- 8
- 9
-10
-11
-12</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="n">PROTO</span><span class="o">-</span><span class="n">vEB</span><span class="o">-</span><span class="n">DELETE</span><span class="p">(</span><span class="n">V</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">V</span><span class="p">.</span><span class="n">u</span> <span class="o">==</span> <span class="mi">2</span>
-        <span class="n">V</span><span class="p">.</span><span class="n">A</span><span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
-    <span class="k">else</span>
-        <span class="n">PROTO</span><span class="o">-</span><span class="n">vEB</span><span class="o">-</span><span class="n">DELETE</span><span class="p">(</span><span class="n">V</span><span class="p">.</span><span class="n">cluster</span><span class="p">[</span><span class="n">x</span><span class="p">.</span><span class="n">high</span><span class="p">],</span> <span class="n">x</span><span class="p">.</span><span class="n">low</span><span class="p">)</span>
-        <span class="n">inCluster</span> <span class="o">=</span> <span class="nb">false</span>
-        <span class="k">for</span> <span class="n">i</span> <span class="o">=</span> <span class="n">x</span><span class="p">.</span><span class="n">high</span> <span class="o">*</span> <span class="n">sqrt</span><span class="p">(</span><span class="n">u</span><span class="p">)</span> <span class="n">to</span> <span class="p">(</span><span class="n">x</span><span class="p">.</span><span class="n">high</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">sqrt</span><span class="p">(</span><span class="n">u</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
-            <span class="k">if</span> <span class="n">PROTO</span><span class="o">-</span><span class="n">vEB</span><span class="o">-</span><span class="n">MEMBER</span><span class="p">(</span><span class="n">V</span><span class="p">.</span><span class="n">cluster</span><span class="p">[</span><span class="n">x</span><span class="p">.</span><span class="n">high</span><span class="p">],</span> <span class="n">i</span><span class="p">)</span>
-                <span class="n">inCluster</span> <span class="o">=</span> <span class="nb">true</span>
-                <span class="k">break</span>
-        <span class="k">if</span> <span class="n">inCluster</span> <span class="o">=</span> <span class="nb">false</span>
-            <span class="n">PROTO</span><span class="o">-</span><span class="n">vEB</span><span class="o">-</span><span class="n">DELETE</span><span class="p">(</span><span class="n">V</span><span class="p">.</span><span class="n">summary</span><span class="p">,</span><span class="n">x</span><span class="p">.</span><span class="n">high</span><span class="p">)</span>
-</pre></div>
-</td></tr></table>
-
 <h2 id="202-5">20.2-5</h2>
 <blockquote>
 <p>Modify the $\text{proto-vEB}$ structure to support keys that have associated satellite data.</p>
